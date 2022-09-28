@@ -10,8 +10,12 @@
   cursor: pointer;
 }
 .active{
+  cursor: auto;
   color: $sub-text;
 }
 .dayCell:hover {
   background-color: $hover-grey;
+}
+.active:hover {
+  background-color: $light-grey;
 }

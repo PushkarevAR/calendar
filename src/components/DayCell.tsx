@@ -1,12 +1,8 @@
 import { FC } from "react";
+import { IDate } from "../models/IDate";
 import style from './DayCell.module.scss';
 
-interface IDay {
-  day: number;
-  isActive: boolean;
-}
-
-const DayCell: FC<IDay> = ({ day, isActive }) => {
+const DayCell: FC<IDate> = ({ day, isActive, month, year }) => {
   const { dayCell, active } = style;
   const dayStyle = isActive ? dayCell : `${active} ${dayCell}`  
 

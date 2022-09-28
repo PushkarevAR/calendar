@@ -13,23 +13,6 @@
     h1 {
       width: 100%;
     }
-    .arrows {
-      @include sizes(120px, 100%);
-      display: flex;
-      align-items: center;
-      justify-content: end;
-      position: absolute;
-      right: 0;
-      .arrow {
-        @include sizes(30px, 30px);
-        display: block;
-        border-radius: 100%;
-        cursor: pointer;
-      }
-      .arrow:hover {
-        transform: scale(1.2, 1.2);
-      }
-    }
   }
   .week {
     display: flex;

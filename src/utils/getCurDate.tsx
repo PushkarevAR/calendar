@@ -1,6 +1,4 @@
-export const getCurDate = (curDate: Date) => {
-  const curMonth = curDate.getMonth();
-  const curYear = curDate.getFullYear();
+export const getCurDate = (curMonth: number, curYear: number) => {
   const month = [
     "January",
     "February",

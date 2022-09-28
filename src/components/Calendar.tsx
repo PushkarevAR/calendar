@@ -1,22 +1,19 @@
 import style from "./Calendar.module.scss";
-import chevronRight from "../assets/chevron-right.svg";
-import chevronLeft from "../assets/chevron-left.svg";
 import { fillCurMonth } from "../utils/fillCurMonth";
 import { getCurDate } from "../utils/getCurDate";
+import Arrows from "./Arrows";
+import { useAppSelector } from "../hooks/redux";
 
 const Calendar = () => {
-  const { calendarSection, header, arrows, arrow, week, days } = style; // get styles
-  const date = new Date();
-  const month = fillCurMonth(date); //fill current month
+  const { calendarSection, header, week, days } = style; // get styles
+  const { date } = useAppSelector((state) => state.dateReducer);
+  const month = fillCurMonth(date.month, date.year); //fill current month
 
   return (
     <section className={calendarSection}>
       <div className={header}>
-        {getCurDate(date)}
-        <span className={arrows}>
-          <img src={chevronLeft} alt="prev-month" className={arrow} />
-          <img src={chevronRight} alt="next-month" className={arrow} />
-        </span>
+        {getCurDate(date.month, date.year)}
+        <Arrows/>
       </div>
       <div className={week}>
         <span>Sun</span>
