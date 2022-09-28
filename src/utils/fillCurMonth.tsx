@@ -1,6 +1,6 @@
 import DayCell from "../components/DayCell";
 
-export function fillCurMonth(curMonth: number, curYear: number) {
+export function fillCurMonth(curWeek: number, curMonth: number, curYear: number) {
   const firstDayOfMonth = new Date(curYear, curMonth, 1).getDay();
   const lastDateOfMonth = new Date(curYear, curMonth + 1, 0).getDate();
   const lastDateOfPrevMonth = new Date(curYear, curMonth, 0).getDate();
@@ -13,15 +13,15 @@ export function fillCurMonth(curMonth: number, curYear: number) {
     i <= lastDateOfPrevMonth;
     i++
   ) {
-    month.push(<DayCell day={i} month={curMonth} year={curYear} isActive={false} key={index} />);
+    month.push(<DayCell day={i} week={curWeek} month={curMonth} year={curYear} isActive={false} key={index} />);
     index++;
   }
   for (let i = 1; i <= lastDateOfMonth; i++) {
-    month.push(<DayCell day={i} month={curMonth} year={curYear} isActive={true} key={index} />);
+    month.push(<DayCell day={i} week={curWeek} month={curMonth} year={curYear} isActive={true} key={index} />);
     index++;
   }
   for (let i = 1; i <= 6 - lastDayOfMonth; i++) {
-    month.push(<DayCell day={i} month={curMonth} year={curYear} isActive={false} key={index} />);
+    month.push(<DayCell day={i} week={curWeek} month={curMonth} year={curYear} isActive={false} key={index} />);
     index++;
   }
   return month;

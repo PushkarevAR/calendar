@@ -12,6 +12,7 @@ console.log('Initial Date:', currentDate);
 const initialState: DateState = {
   date: {
     day: currentDate.getDate(),
+    week: currentDate.getDay(),
     month: currentDate.getMonth(),
     year: currentDate.getFullYear(),
     isActive: false,
