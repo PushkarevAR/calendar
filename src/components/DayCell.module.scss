@@ -2,6 +2,7 @@
 
 .dayCell {
   @include sizes(40px, 40px);
+  // font-size: 16px;
   display: block;
   border-radius: 50%;
   text-align: center;
@@ -9,13 +10,24 @@
   flex: 0 0 40px;
   cursor: pointer;
 }
-.active{
+.inactive {
   cursor: auto;
   color: $sub-text;
+}
+.selected {
+  // border: 3px solid $hover-grey;
+  outline: 3px solid $hover-grey;
+  outline-offset: 2px;
+}
+.pink{
+  background-color: $pink-day;
+}
+.green{
+  background-color: $green-day;
 }
 .dayCell:hover {
   background-color: $hover-grey;
 }
-.active:hover {
+.inactive:hover {
   background-color: $light-grey;
 }

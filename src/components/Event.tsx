@@ -1,36 +1,100 @@
 import SelectedDay from "./SelectedDay";
-import style from './Event.module.scss';
+import style from "./Event.module.scss";
+import React, { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { IEvent } from "../models/IEvent";
+import { eventsSlice } from "../store/reducers/EventsSlice";
+import EventInfo from "./EventInfo";
 
 const Event = () => {
-  const { title, description, green, pink } = style;  
+  const { title, description, green, pink } = style;
+  const { date: globalDate } = useAppSelector((state) => state.dateReducer);
+  const { addEvent } = eventsSlice.actions;
+  const dispatch = useAppDispatch();
+
+  const initialSate: IEvent = {
+    title: "",
+    description: "",
+    type: "",
+    date: {
+      day: 1,
+      week: 1,
+      month: 1,
+      year: 1,
+      isActive: false,
+    },
+  };
+  const [newEvent, setNewEvent] = useState(initialSate);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("submit");
+    setNewEvent({ ...newEvent, date: globalDate });
+  };
+
+  useEffect(() => {
+    console.log('useEffect worked!');
+    newEvent.date.isActive && dispatch(addEvent(newEvent)); // КОСТЫЛЬ АЛЯРМ
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newEvent.date]); // idk why, but setStaet is async
+
+  const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewEvent({ ...newEvent, title: event.target.value });
+  };
+
+  const handleDescriptionInput = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setNewEvent({ ...newEvent, description: event.target.value });
+  };
+
+  const handleEventTypeCahnge = () => {
+    setNewEvent({
+      ...newEvent,
+      type: newEvent.type === "pink" ? "green" : "pink",
+    });
   };
 
   return (
     <section>
       <SelectedDay />
+      <EventInfo />
       <form action="" onSubmit={handleSubmit}>
         <h3>Add Event :</h3>
         <div>
           <input
+            value={newEvent.title}
+            autoComplete="off"
             type="text"
             name="EventTitle"
-            id=""
+            required
             placeholder="Event title..."
             className={title}
+            onChange={handleTitleInput}
           />
-          <input type="radio" name="Eventtype" id="" className={green}/>
-          <input type="radio" name="Eventtype" id="" className={pink}/>
+          <input
+            type="radio"
+            name="Eventtype"
+            id=""
+            className={green}
+            onChange={handleEventTypeCahnge}
+            defaultChecked
+          />
+          <input
+            type="radio"
+            name="Eventtype"
+            id=""
+            className={pink}
+            onChange={handleEventTypeCahnge}
+          />
         </div>
         <input
+          value={newEvent.description}
+          autoComplete="off"
           type="text"
           name="EventDescription"
-          id=""
           placeholder="Event description..."
           className={description}
+          onChange={handleDescriptionInput}
         />
         <button type="submit">Add</button>
       </form>

@@ -3,7 +3,9 @@ $main-text: #2E2E2E;
 $sub-text: #b9b9b9;
 $hover-grey: #c0c0c0;
 $green-day: #98BB83;
+$green-day-light: #98bb8344;
 $pink-day: #EC4764;
+$pink-day-light: #EC476444;
 
 @mixin sizes($width, $height) {
   width: $width;
