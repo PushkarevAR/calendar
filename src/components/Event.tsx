@@ -5,14 +5,24 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { IEvent } from "../models/IEvent";
 import { eventsSlice } from "../store/reducers/EventsSlice";
 import EventInfo from "./EventInfo";
+import { fetchEvents } from "../store/reducers/ActionCreator";
 
 const Event = () => {
   const { title, description, green, pink } = style;
   const { date: globalDate } = useAppSelector((state) => state.dateReducer);
   const { addEvent } = eventsSlice.actions;
+  const { events } = useAppSelector((state) => state.eventsReducer);
   const dispatch = useAppDispatch();
 
+  const id = events.length;
+
+  useEffect(() => {
+    console.log("useEffect worked!");
+    dispatch(fetchEvents());
+  }, []);
+
   const initialSate: IEvent = {
+    id: 0,
     title: "",
     description: "",
     type: "",
@@ -28,14 +38,14 @@ const Event = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setNewEvent({ ...newEvent, date: globalDate });
+    setNewEvent({ ...newEvent, id: id, date: globalDate });
   };
 
-  useEffect(() => {
-    console.log('useEffect worked!');
-    newEvent.date.isActive && dispatch(addEvent(newEvent)); // КОСТЫЛЬ АЛЯРМ
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newEvent.date]); // idk why, but setStaet is async
+  // useEffect(() => {
+  //   console.log("useEffect worked!");
+  //   newEvent.date.isActive && dispatch(addEvent(newEvent)); // КОСТЫЛЬ АЛЯРМ
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [newEvent.id]); // idk why, but setStaet is async
 
   const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewEvent({ ...newEvent, title: event.target.value });

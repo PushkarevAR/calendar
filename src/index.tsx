@@ -10,9 +10,9 @@ const root = createRoot(container);
 const store = setupStore();
 
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>
+  // {/* </React.StrictMode> */}
 );

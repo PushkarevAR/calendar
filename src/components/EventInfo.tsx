@@ -4,7 +4,7 @@ import style from "./EventInfo.module.scss";
 const EventInfo = () => {
   const { wrapper, pink, green } = style;
   const { date } = useAppSelector((state) => state.dateReducer);
-  const { events } = useAppSelector((state) => state.eventsReducer);
+  const { events, isLoading, error } = useAppSelector((state) => state.eventsReducer);
 
   const curEvents = events.filter(
     (event) =>
@@ -19,10 +19,12 @@ const EventInfo = () => {
   return (
     <div className={wrapper}>
       {isEvent &&
-        curEvents.map((event, index) => {
+        curEvents.map((event) => {
           return (
-            <div key={index}>
+            <div key={event.id}>
               <h4>{event.title}</h4>
+              {isLoading && <p>Loading...</p>}
+              {error && <p>{error}</p>}
               {event.description && <p className={event.type === 'pink' ? pink : green}>{event.description}</p>}
             </div>
           );

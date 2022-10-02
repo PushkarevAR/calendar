@@ -1,5 +1,6 @@
 import { IEvent } from "../../models/IEvent";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { fetchEvents } from "./ActionCreator";
 
 interface EventsState {
   events: IEvent[];
@@ -10,6 +11,7 @@ interface EventsState {
 const initialState: EventsState = {
   events: [
     {
+      id: 0,
       title: "B-Day",
       description: "Lexa B-day",
       type: "pink",
@@ -22,6 +24,7 @@ const initialState: EventsState = {
       },
     },
     {
+      id: 1,
       title: "B-Day",
       description: "Marina B-day a lot pf text here to see some issue",
       type: "green",
@@ -42,8 +45,22 @@ export const eventsSlice = createSlice({
   name: "events",
   initialState,
   reducers: {
-    addEvent(state, action: PayloadAction<IEvent>) {      
+    addEvent(state, action: PayloadAction<IEvent>) {
       state.events.push(action.payload);
+    },
+  },
+  extraReducers: {
+    [fetchEvents.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [fetchEvents.fulfilled.type]: (state, action: PayloadAction<IEvent[]>) => {
+      state.isLoading = false;
+      state.error = "";
+      state.events = action.payload;
+    },
+    [fetchEvents.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false;
+      state.error = action.payload;
     },
   },
 });

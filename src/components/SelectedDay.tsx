@@ -1,9 +1,9 @@
 import { useAppSelector } from "../hooks/redux";
 import { getMonthByNumber, getWeekByNumber } from "../utils/getDate";
-import style from './SelectedDay.module.scss';
+// import style from './SelectedDay.module.scss';
 
 const SelectedDay = () => {
-  const {} = style;
+  // const {} = style;
   const { date } = useAppSelector((state) => state.dateReducer);
 
   return (
