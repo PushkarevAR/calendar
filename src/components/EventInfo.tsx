@@ -14,7 +14,6 @@ const EventInfo: FC<EventInfoProps> = ({ event }) => {
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log(event);
     await deleteEvent(event);
   };
 

@@ -6,7 +6,6 @@ interface DateState {
 }
 
 const currentDate = new Date();
-console.log("Initial Date:", currentDate);
 
 const initialState: DateState = {
   date: {

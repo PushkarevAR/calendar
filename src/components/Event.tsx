@@ -33,8 +33,6 @@ const Event: FC<EventProps> = ({ events }) => {
   const [newEvent, setNewEvent] = useState(initialSate);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    console.log("submit presed, current event: ", newEvent);
-
     event.preventDefault();
     setNewEvent({ ...newEvent, id: (newEvent.id += 1), date: globalDate });
   };
@@ -42,7 +40,6 @@ const Event: FC<EventProps> = ({ events }) => {
   const createEventAsync = async (event: IEvent) => await createEvent(event);
 
   useEffect(() => {
-    console.log("useEffect worked!, curEvent: ", newEvent);
     newEvent.date.isActive && createEventAsync(newEvent);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newEvent.id]);
@@ -58,8 +55,6 @@ const Event: FC<EventProps> = ({ events }) => {
   };
 
   const handleEventTypeCahnge = () => {
-    console.log("typing", newEvent.type);
-
     setNewEvent({
       ...newEvent,
       type: newEvent.type === "pink" ? "green" : "pink",
