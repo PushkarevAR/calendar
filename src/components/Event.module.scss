@@ -1,15 +1,19 @@
 @import "../utils/utils.scss";
 
-section{
+section {
   margin-left: 60px;
   margin-right: 20px;
+}
+
+.wrapper {
+  margin-top: 20px;
 }
 
 form {
   margin-top: 20px;
   position: relative;
 
-  div{
+  div {
     display: flex;
   }
 

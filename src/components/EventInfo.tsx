@@ -1,34 +1,32 @@
-import { useAppSelector } from "../hooks/redux";
+import React, { FC } from "react";
+import { IEvent } from "../models/IEvent";
+import { eventsAPI } from "../services/EventsService";
 import style from "./EventInfo.module.scss";
 
-const EventInfo = () => {
+interface EventInfoProps {
+  event: IEvent;
+}
+
+const EventInfo: FC<EventInfoProps> = ({ event }) => {
   const { wrapper, pink, green } = style;
-  const { date } = useAppSelector((state) => state.dateReducer);
-  const { events, isLoading, error } = useAppSelector((state) => state.eventsReducer);
 
-  const curEvents = events.filter(
-    (event) =>
-      date.isActive &&
-      event.date.year === date.year &&
-      event.date.month === date.month &&
-      event.date.day === date.day
-  );
+  const [deleteEvent] = eventsAPI.useDeleteEventMutation();
 
-  const isEvent = curEvents.length > 0;
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    console.log(event);
+    await deleteEvent(event);
+  };
 
   return (
     <div className={wrapper}>
-      {isEvent &&
-        curEvents.map((event) => {
-          return (
-            <div key={event.id}>
-              <h4>{event.title}</h4>
-              {isLoading && <p>Loading...</p>}
-              {error && <p>{error}</p>}
-              {event.description && <p className={event.type === 'pink' ? pink : green}>{event.description}</p>}
-            </div>
-          );
-        })}
+      <h4>{event.title}</h4>
+      <button onClick={handleDelete}>delete</button>
+      {event.description && (
+        <p className={event.type === "pink" ? pink : green}>
+          {event.description}
+        </p>
+      )}
     </div>
   );
 };

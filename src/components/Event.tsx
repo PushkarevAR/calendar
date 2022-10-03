@@ -1,31 +1,27 @@
 import SelectedDay from "./SelectedDay";
 import style from "./Event.module.scss";
-import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import React, { useEffect, useState, FC } from "react";
+import { useAppSelector } from "../hooks/redux";
 import { IEvent } from "../models/IEvent";
-import { eventsSlice } from "../store/reducers/EventsSlice";
 import EventInfo from "./EventInfo";
-import { fetchEvents } from "../store/reducers/ActionCreator";
+import { eventsAPI } from "../services/EventsService";
+import { getEventsByDate } from "../utils/getEventsByDay";
 
-const Event = () => {
-  const { title, description, green, pink } = style;
+interface EventProps {
+  events: IEvent[];
+}
+
+const Event: FC<EventProps> = ({ events }) => {
+  const { title, description, green, pink, wrapper } = style;
   const { date: globalDate } = useAppSelector((state) => state.dateReducer);
-  const { addEvent } = eventsSlice.actions;
-  const { events } = useAppSelector((state) => state.eventsReducer);
-  const dispatch = useAppDispatch();
-
-  const id = events.length;
-
-  useEffect(() => {
-    console.log("useEffect worked!");
-    dispatch(fetchEvents());
-  }, []);
+  const lastID = events[events.length - 1].id;
+  const [createEvent] = eventsAPI.useCreateEventMutation();
 
   const initialSate: IEvent = {
-    id: 0,
+    id: lastID,
     title: "",
     description: "",
-    type: "",
+    type: "green",
     date: {
       day: 1,
       week: 1,
@@ -37,15 +33,19 @@ const Event = () => {
   const [newEvent, setNewEvent] = useState(initialSate);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    console.log("submit presed, current event: ", newEvent);
+
     event.preventDefault();
-    setNewEvent({ ...newEvent, id: id, date: globalDate });
+    setNewEvent({ ...newEvent, id: (newEvent.id += 1), date: globalDate });
   };
 
-  // useEffect(() => {
-  //   console.log("useEffect worked!");
-  //   newEvent.date.isActive && dispatch(addEvent(newEvent)); // КОСТЫЛЬ АЛЯРМ
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [newEvent.id]); // idk why, but setStaet is async
+  const createEventAsync = async (event: IEvent) => await createEvent(event);
+
+  useEffect(() => {
+    console.log("useEffect worked!, curEvent: ", newEvent);
+    newEvent.date.isActive && createEventAsync(newEvent);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newEvent.id]);
 
   const handleTitleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewEvent({ ...newEvent, title: event.target.value });
@@ -58,16 +58,24 @@ const Event = () => {
   };
 
   const handleEventTypeCahnge = () => {
+    console.log("typing", newEvent.type);
+
     setNewEvent({
       ...newEvent,
       type: newEvent.type === "pink" ? "green" : "pink",
     });
   };
 
+  const currEvents = getEventsByDate(events, globalDate);
+  const isEvent = events.length > 0;
+
   return (
     <section>
       <SelectedDay />
-      <EventInfo />
+      <div className={wrapper}>
+        {isEvent &&
+          currEvents.map((event) => <EventInfo key={event.id} event={event} />)}
+      </div>
       <form action="" onSubmit={handleSubmit}>
         <h3>Add Event :</h3>
         <div>
@@ -102,6 +110,7 @@ const Event = () => {
           autoComplete="off"
           type="text"
           name="EventDescription"
+          required
           placeholder="Event description..."
           className={description}
           onChange={handleDescriptionInput}

@@ -3,11 +3,23 @@ import { fillCurMonth } from "../utils/fillCurMonth";
 import Arrows from "./Arrows";
 import { useAppSelector } from "../hooks/redux";
 import { getMonthByNumber } from "../utils/getDate";
+import { IEvent } from "../models/IEvent";
+import { FC, useEffect } from "react";
 
-const Calendar = () => {
+interface CalendarProps {
+  events: IEvent[];
+}
+
+const Calendar: FC<CalendarProps> = ({ events }) => {
   const { calendarSection, header, week, days } = style; // get styles
   const { date } = useAppSelector((state) => state.dateReducer);
-  const month = fillCurMonth(date.week, date.month, date.year); //fill current month
+
+  const curEvents = events.filter(
+    (event) => event.date.year === date.year && event.date.month === date.month
+  );
+  const month = fillCurMonth(date.week, date.month, date.year, curEvents); //fill current month
+
+  useEffect(() => {});
 
   return (
     <section className={calendarSection}>
@@ -15,7 +27,6 @@ const Calendar = () => {
         <h1>
           {getMonthByNumber(date.month)} {date.year}
         </h1>
-        {/* {getCurDate(date.month, date.year)} */}
         <Arrows />
       </div>
       <div className={week}>

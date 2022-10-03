@@ -1,15 +1,17 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { eventsAPI } from "../services/EventsService";
 import dateReducer from "./reducers/DateSlice";
-import eventsReducer from "./reducers/EventsSlice";
 
 const rootReducer = combineReducers({
   dateReducer,
-  eventsReducer,
+  [eventsAPI.reducerPath]: eventsAPI.reducer,
 });
 
 export const setupStore = () => {
   return configureStore({
     reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(eventsAPI.middleware),
   });
 };
 

@@ -1,24 +1,32 @@
 @import "../utils/utils.scss";
 
-.wrapper{
-  margin-top: 20px;
-
-  h4{
+.wrapper {
+  position: relative;
+  h4 {
     margin: 0 0 8px 8px;
   }
-
-  p{
+  button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: $sub-text;
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    cursor: pointer;
+  }
+  button:hover {
+    text-decoration: underline;
+  }
+  p {
     @include sizes(300px, auto);
     border-radius: 8px;
     padding: 8px 12px 8px 12px;
     margin-bottom: 8px;
   }
 }
-
-.green{
+.green {
   background-color: $green-day-light;
 }
-
-.pink{
+.pink {
   background-color: $pink-day-light;
 }
