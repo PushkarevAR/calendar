@@ -17,8 +17,8 @@ function App() {
       {isError && <h2>Failed to fetch data from JSON server</h2>}
       {isSuccess && (
         <>
-          <Calendar events={events} />
           <Event events={events} />
+          <Calendar events={events} />
         </>
       )}
     </div>
