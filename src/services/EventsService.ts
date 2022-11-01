@@ -3,7 +3,7 @@ import { IEvent } from "../models/IEvent";
 
 export const eventsAPI = createApi({
   reducerPath: "eventsAPI",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://my-json-server.typicode.com/PushkarevAR/mockjson" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000" }),
   tagTypes: ["Event"],
   endpoints: (build) => ({
     fetchAllEvents: build.query<IEvent[], number>({
