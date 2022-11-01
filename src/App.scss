@@ -5,4 +5,21 @@
   justify-content: center;
   align-items: center;
   flex-direction: row;
+  gap: 50px;
+}
+@media (max-width: 940px) {
+  .App{
+    height: auto;
+    // width: auto;
+    margin: 40px 0px 40px 0px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+  }
+}
+@media (max-width: 600px) {
+  .App{
+    padding-left: 60px;
+  }
 }

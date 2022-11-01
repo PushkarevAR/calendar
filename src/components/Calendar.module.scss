@@ -32,3 +32,9 @@
     gap: 30px;
   }
 }
+@media (max-width: 940px) {
+  .calendarSection{
+    background-color: #fff;
+    box-shadow: 0px 0px 0px 0px rgb(211, 211, 211);
+  }
+}
